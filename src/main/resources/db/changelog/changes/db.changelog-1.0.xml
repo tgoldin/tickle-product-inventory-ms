@@ -11,29 +11,69 @@
         <runningAs  username="SA"/>
     </preConditions>
 
-<!--    <changeSet  id="1"  author="tgoldin">-->
-<!--        <createTable  tableName="person">-->
-<!--            <column  name="id"  type="int"  autoIncrement="true">-->
-<!--                <constraints  primaryKey="true"  nullable="false"/>-->
-<!--            </column>-->
-<!--            <column  name="firstname"  type="varchar(50)"/>-->
-<!--            <column  name="lastname"  type="varchar(50)">-->
-<!--                <constraints  nullable="false"/>-->
-<!--            </column>-->
-<!--            <column  name="state"  type="char(2)"/>-->
-<!--        </createTable>-->
-<!--    </changeSet>-->
+    <changeSet  id="1.00"  author="tgoldin">
+        <createTable  tableName="products">
+            <column  name="id"  type="int"  autoIncrement="true">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column  name="description"  type="text">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="stock_id"  type="varchar(50)">
+                <constraints  nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 
-<!--    <changeSet  id="2"  author="nvoxland">-->
-<!--        <addColumn  tableName="person">-->
-<!--            <column  name="username"  type="varchar(8)"/>-->
-<!--        </addColumn>-->
-<!--    </changeSet>-->
-<!--    <changeSet  id="3"  author="nvoxland">-->
-<!--        <addLookupTable-->
-<!--                existingTableName="person"  existingColumnName="state"-->
-<!--                newTableName="state"  newColumnName="id"  newColumnDataType="char(2)"/>-->
-<!--    </changeSet>-->
+    <changeSet  id="1.02"  author="tgoldin">
+        <createTable  tableName="product_packing">
+            <column  name="id"  type="int"  autoIncrement="true">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column  name="description"  type="text">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="product_id"  type="int">
+                <constraints  nullable="false" foreignKeyName="fk_products_product_packing" references="products(id)"/>
+            </column>
+            <column  name="number_of_packages"  type="int"/>
+            <column  name="width"  type="double"/>
+            <column  name="height"  type="double"/>
+            <column  name="length"  type="double"/>
+            <column  name="weight"  type="double"/>
+        </createTable>
+    </changeSet>
+    <changeSet  id="1.03"  author="tgoldin">
+        <createTable  tableName="product_inventories">
+            <column  name="id"  type="int"  autoIncrement="true">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column  name="description"  type="text">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="product_id"  type="int">
+                <constraints  nullable="false" foreignKeyName="fk_products_product_inventories" references="products(id)"/>
+            </column>
+            <column  name="manufacture_reference"  type="text">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="quantity"  type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet  id="1.04"  author="tgoldin">
+        <createTable  tableName="product_packing_inventories">
+            <column  name="id"  type="int"  autoIncrement="true">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column  name="product_packing_id"  type="int">
+                <constraints  nullable="false" foreignKeyName="fk_product_packing" references="product_packing(id)"/>
+            </column>
+            <column  name="product_inventories_id"  type="int">
+                <constraints  nullable="false" foreignKeyName="fk_product_inventories" references="product_inventories(id)"/>
+            </column>
+            <column  name="quantity"  type="int"/>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>
 
